@@ -1,16 +1,16 @@
-task :default => :run
+desc "compile and run the site"
+task :default do
+  pids = [
+      spawn("jekyll"),
+      spawn("scss --watch assets:css")
+  ]
 
-desc 'Build site with Jekyll'
-task :build do
-  jekyll
-end
+  trap "INT" do
+    Process.kill "INT", *pids
+    exit 1
+  end
 
-desc 'Build site and start server with --auto'
-task :run do
-  jekyll '--server --auto'
-end
-
-def jekyll(opts = '')
-  sh 'rm -rf _site'
-  sh 'jekyll ' + opts
+  loop do
+    sleep 1
+  end
 end

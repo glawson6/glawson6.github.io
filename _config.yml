@@ -1,4 +1,6 @@
-
-permalink: pretty
-highlighter: true
-exclude: ['Rakefile.rb', 'CNAME', 'README.markdown']
+auto: true
+permalink: /blog/:year/:month/:day/:title
+server: true
+exclude:
+- README.md
+- Rakefile
