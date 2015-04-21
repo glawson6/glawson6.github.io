@@ -35,3 +35,5 @@ markdown: kramdown
 #     coderay_css: style
 
 pygments: true
+paginate: 1
+paginate_path: "/blog/page:num/"

@@ -122,7 +122,7 @@ h6, .h6 {
 
 /* Pagination */
 .pager {
-  margin-bottom: 60px;
+  margin-bottom: 20px;
   text-align: left;
 }
 .pager > li > a {

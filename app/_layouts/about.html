@@ -9,37 +9,16 @@
 
     <div class="container">
       <div class="blog-header">
-        <h1 class="blog-title">Gregory Lawson</h1>
+        <h1 class="blog-title">About Me</h1>
         <p class="lead blog-description">This is where I blog my head......</p>
       </div>
 
       <div class="row">
         <div class="col-sm-8 blog-main">
           {{ content }}
-          <nav class="">
-            <ul class="pager">
-              <li>
-                {% if paginator.previous_page %}
-                <a href="{{ paginator.previous_page_path }}" class="previous">Previous</a>
-                {% else %}
-                <a href="#" class="disabled">Previous</a>
-                {% endif %}
-              </li>
-              <li>
-                {% if paginator.next_page %}
-                <a href="{{ paginator.next_page_path }}" class="next">Next</a>
-                {% else %}
-                <a href="#" class="disabled">Next</a>
-                {% endif %}
-              </li>
-            </ul>
-          </nav>
-          <div class="page_number ">Page: {{ paginator.page }} of {{ paginator.total_pages }}</div>
-
         </div><!-- /.blog-main -->
 
         <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
-          {% include sidebar-about.html %}
           {% include sidebar-links.html %}
           {% include sidebar-elsewhere.html %}
         </div>  <!-- /.blog-sidebar -->
