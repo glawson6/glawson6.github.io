@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html class="no-js">
+  {% include header.html %}
+  <body>
+    <!--[if lt IE 8]>
+        <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+    {% include nav.html %}
+
+    <div class="container">
+      <div class="blog-header">
+        <h1 class="blog-title">Gregory Lawson Blog</h1>
+        <p class="lead blog-description">This is where I blog my head......</p>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-8 blog-main">
+          {{ content }}
+          {% include pager.html %}
+        </div><!-- /.blog-main -->
+
+        <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+          {% include sidebar-about.html %}
+          {% include sidebar-links.html %}
+          {% include sidebar-elsewhere.html %}
+        </div>  <!-- /.blog-sidebar -->
+      </div><!-- /.row -->
+    </div><!-- /.container -->
+    {% include footer.html %}
+    {% include scripts.html %}
+    {% include googleanalytics.html %}
+  </body>
+</html>
