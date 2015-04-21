@@ -50,7 +50,8 @@ module.exports = function (grunt) {
     },
     yeoman: {
       app: 'app',
-      dist: 'dist'
+      dist: 'dist',
+      home: './'
     },
     watch: {
       compass: {
@@ -130,6 +131,26 @@ module.exports = function (grunt) {
             // non-standard `keep_files` here (e.g., the generated files
             // directory from Jekyll Picture Tag).
             '!<%= yeoman.dist %>/.git*'
+          ]
+        }]
+      },
+      home: {
+        files: [{
+          dot: true,
+          src: [
+            '<%= yeoman.home %>/blog',
+            '<%= yeoman.home %>/css',
+            '<%= yeoman.home %>/img',
+            '<%= yeoman.home %>/jekyll',
+            '<%= yeoman.home %>/js',
+            '<%= yeoman.home %>/.htaccess',
+            '<%= yeoman.home %>/404.html',
+            '<%= yeoman.home %>/about.html',
+            '<%= yeoman.home %>/crossdomain.xml',
+            '<%= yeoman.home %>/favicon.ico',
+            '<%= yeoman.home %>/humans.txt',
+            '<%= yeoman.home %>/index.html',
+            '<%= yeoman.home %>/robots.txt',
           ]
         }]
       },
@@ -283,6 +304,15 @@ module.exports = function (grunt) {
           dest: '<%= yeoman.dist %>'
         }]
       },
+      home: {
+        files: [{
+          expand: true,
+          dot: true,
+          cwd: '<%= yeoman.dist %>',
+          src: ['**/*'],
+          dest: '<%= yeoman.home %>'
+        }]
+      },
       // Copy CSS into .tmp directory for Autoprefixer processing
       stageCss: {
         files: [{
@@ -345,6 +375,7 @@ module.exports = function (grunt) {
       ],
       dist: [
         'compass:dist',
+        //'multidest:copy_dist'
         'copy:dist'
       ]
     }
@@ -400,7 +431,8 @@ module.exports = function (grunt) {
     'svgmin',
     'filerev',
     'usemin',
-    'htmlmin'
+    'htmlmin',
+    'copy:home'
     ]);
 
   grunt.registerTask('default', [
@@ -410,4 +442,5 @@ module.exports = function (grunt) {
   ]);
   grunt.loadNpmTasks('grunt-bower-task');
   grunt.loadNpmTasks('grunt-wiredep');
+  grunt.loadNpmTasks('grunt-multi-dest');
 };
