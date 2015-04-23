@@ -102,7 +102,10 @@ h6, .h6 {
   font-size: 18px;
   line-height: 1.5;
 }
-
+.sidebar-about{
+  background-color: #f9f9f9;
+  border: 1px solid #e5e5e5;
+}
 /* Sidebar modules for boxing content */
 .sidebar-module {
   padding: 15px;
@@ -167,4 +170,6 @@ h6, .h6 {
 
 .side-image{
   margin-bottom: 10px;
+  opacity: 0.85;
+  filter: alpha(opacity=85); /* For IE8 and earlier */
 }

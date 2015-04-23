@@ -16,6 +16,7 @@
       <div class="row">
         <div class="col-sm-8 blog-main">
           {{ content }}
+          <!--
           <nav class="">
             <ul class="pager">
               <li>
@@ -35,11 +36,12 @@
             </ul>
           </nav>
           <div class="page_number ">Page: {{ paginator.page }} of {{ paginator.total_pages }}</div>
-
+          -->
         </div><!-- /.blog-main -->
 
         <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
           {% include sidebar-about.html %}
+          {% include sidebar-posts.html %}
           {% include sidebar-links.html %}
           {% include sidebar-elsewhere.html %}
         </div>  <!-- /.blog-sidebar -->

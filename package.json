@@ -5,6 +5,9 @@
   "description": "Yeoman workflow for glawson6.github.io",
   "dependencies": {},
   "devDependencies": {
+    "component-bind": "^1.0.0",
+    "component-emitter": "^1.2.0",
+    "engine.io-client": "^1.5.1",
     "grunt": "^0.4.5",
     "grunt-autoprefixer": "~1.0.1",
     "grunt-bower-task": "^0.4.0",
@@ -29,7 +32,10 @@
     "grunt-wiredep": "^2.0.0",
     "jshint-stylish": "~0.4.0",
     "load-grunt-tasks": "~0.6.0",
-    "time-grunt": "~0.4.0"
+    "object-component": "0.0.3",
+    "parseUri": "^1.2.3-2",
+    "time-grunt": "~0.4.0",
+    "to-array": "^0.1.4"
   },
   "engines": {
     "node": ">=0.8.0"
