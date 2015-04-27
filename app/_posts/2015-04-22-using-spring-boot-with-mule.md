@@ -24,3 +24,16 @@ as a server to a file system. For major deployments this works extremely well. I
 unwanted. To fully get the benefits of microservices architecture, it would be ideal if Mule could be shipped as a
 stand alone artifact. This is the sweet spot of Spring Boot. Enough talking about microservices and ESBs. Let's roll
 up our sleeves and get to work.
+
+## Mule Starter App
+
+We will use a Mule maven archetype to get us started. It can be found at [Mule's Maven Tools](http://www.mulesoft.org/documentation/display/current/Maven+Tools+for+Mule+ESB#MavenToolsforMuleESB-CreatingaMuleApplication).
+In a bash shell issue type:
+
+```bash
+mvn archetype:generate -DarchetypeGroupId=org.mule.tools.maven -DarchetypeArtifactId=maven-achetype-mule-app -DarchetypeVersion=1.0 -DgroupId=org.taptech.app -DartifactId=mule-starter-app -Dversion=1.0-SNAPSHOT -DmuleVersion=3.6.1 -Dpackage=org.taptech.app -Dtransports=http,jms,vm,file,ftp -Dmodules=db,xml,jersey,json,ws
+```
+
+This should create/scaffold a maven project. The standard Maven project contains one flow and  a functional test. The directory
+ structure is what you would expect for a maven project with the addition of a src/main/app directory that has a Mule 
+ properties and config file.

@@ -173,3 +173,6 @@ h6, .h6 {
   opacity: 0.85;
   filter: alpha(opacity=85); /* For IE8 and earlier */
 }
+.project-description{
+  height: 250px;
+}
