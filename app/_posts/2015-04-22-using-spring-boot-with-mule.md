@@ -30,10 +30,31 @@ up our sleeves and get to work.
 We will use a Mule maven archetype to get us started. It can be found at [Mule's Maven Tools](http://www.mulesoft.org/documentation/display/current/Maven+Tools+for+Mule+ESB#MavenToolsforMuleESB-CreatingaMuleApplication).
 In a bash shell issue type:
 
-```bash
+<?prettify lang=sh?>
+<pre class="prettyprint">
 mvn archetype:generate -DarchetypeGroupId=org.mule.tools.maven -DarchetypeArtifactId=maven-achetype-mule-app -DarchetypeVersion=1.0 -DgroupId=org.taptech.app -DartifactId=mule-starter-app -Dversion=1.0-SNAPSHOT -DmuleVersion=3.6.1 -Dpackage=org.taptech.app -Dtransports=http,jms,vm,file,ftp -Dmodules=db,xml,jersey,json,ws
-```
+</pre>
 
-This should create/scaffold a maven project. The standard Maven project contains one flow and  a functional test. The directory
- structure is what you would expect for a maven project with the addition of a src/main/app directory that has a Mule 
- properties and config file.
+This should create/scaffold a maven project. The standard Maven project contains one flow and  a functional test. The 
+directory structure is what you would expect for a maven project with the addition of a src/main/app directory that 
+has a Mule properties and config file.
+
+The project has Mule jars which are dependent on a previous version of Spring. In order to get Spring Boot, which depends 
+on Spring 4, to run with Mule we have to use a different version of Mule. We will also have to transform our pom.xml to 
+use the Spring Boot as its parent. We will also change the packaging from mule to jar. There are also some dependencies 
+Mule needs in order to be embedded. Those dependencies are also added to the pom. You can view all the changes [here](https://github.com/glawson6/mule-starter-app/blob/master/pom.xml).
+
+At this point the project should be ready to go. 
+
+You can try running it at command line:
+
+<?prettify lang=sh?>
+<pre class="prettyprint">
+mvn clean package  && java -jar target/mule-starter-app-1.0-SNAPSHOT.jar
+</pre>
+
+<img class="side-image img-responsive" src="/img/terminal-start-Mule.png" alt="Terminal Starting Mule">
+
+Congratulations, you just started Mule from a single, deployable, jar file with Spring Boot!
+
+The complete source code and Github project can be found [here](https://github.com/glawson6/mule-starter-app).

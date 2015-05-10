@@ -30,13 +30,13 @@ html {
  */
 
 ::-moz-selection {
-   /* background: #b3d4fc;*/
-    text-shadow: none;
+  background: #b3d4fc;
+  text-shadow: #31708f;
 }
 
 ::selection {
-   /* background: #b3d4fc; */
-    text-shadow: none;
+    background: #b3d4fc;
+    text-shadow: #31708f;
 }
 
 /*
