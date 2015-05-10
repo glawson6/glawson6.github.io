@@ -58,3 +58,7 @@ mvn clean package  && java -jar target/mule-starter-app-1.0-SNAPSHOT.jar
 Congratulations, you just started Mule from a single, deployable, jar file with Spring Boot!
 
 The complete source code and Github project can be found [here](https://github.com/glawson6/mule-starter-app).
+
+####Further reading
+* [Choosing The Right ESB Platform](http://blogs.mulesoft.org/choosing-the-right-esb-platform/)
+* [Why Use An ESB?](http://www.mulesoft.org/why-use-esb)
