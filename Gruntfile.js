@@ -151,6 +151,7 @@ module.exports = function (grunt) {
             '<%= yeoman.home %>/humans.txt',
             '<%= yeoman.home %>/index.html',
             '<%= yeoman.home %>/robots.txt',
+            '<%= yeoman.home %>/Resume-7-page-2015.docx'
           ]
         }]
       },
