@@ -75,7 +75,7 @@ title:  Resume
           </tr>
           <tr>
             <td>Programming Languages:</td>
-            <td>Java, C, C++, HTML, SQL, XML, PL/SQL</td>
+            <td>Java, C, C++, Ruby, Javascript</td>
           </tr>
           <tr>
             <td>JAVA Enterprise Technologies:</td>
@@ -83,11 +83,11 @@ title:  Resume
           </tr>
           <tr>
             <td>ORM Tools:</td>
-            <td>Maven, Ant, Gradle</td>
+            <td>Hibernate, IBatis, MyBatis</td>
           </tr>
           <tr>
             <td>Build Tools:</td>
-            <td>Maven, Ant, Gradle</td>
+            <td>Maven, Ant, Gradle, Grunt</td>
           </tr>
           <tr>
             <td>Frameworks:</td>
@@ -99,7 +99,7 @@ title:  Resume
           </tr>
           <tr>
             <td>Message Oriented Middleware:</td>
-            <td>MQ Series, Sun One Message Queue, JBOSS MQ</td>
+            <td>MQ Series, Sun One Message Queue, JBOSS MQ, ActiveMQ</td>
           </tr>
           <tr>
             <td>Databases:</td>
@@ -110,8 +110,16 @@ title:  Resume
             <td>Windows 2000, NT, XP,Vista, Linux, UNIX,MAC OS X</td>
           </tr>
           <tr>
+            <td>Package Management:</td>
+            <td>Yum, APT-GET, RPM, NPM, Bower, HomeBrew</td>
+          </tr>
+          <tr>
             <td>SCM:</td>
             <td>CVS, Subversion, Visual Source Safe, ClearCase, Git</td>
+          </tr>
+          <tr>
+            <td>Front End (Web):</td>
+            <td> HTML, SQL, XML, JSON, YAML, CSS</td>
           </tr>
         </table>
       </div>
@@ -156,7 +164,7 @@ title:  Resume
         </div>
         <div class="panel-body">
           <h4>Responsibilities:</h4>
-          <p>Responsible for creating back end Restful web services with Java utilizing Spring in applications that are used by customer service.
+          <p>Responsible for creating back end Restful web services with Java utilizing Spring in applications that are used by customer service.</p>
           <h4>Solutions include:</h4>
             <ul>
               <li>Implementing data access with ORM tool MyBatis</li>
@@ -167,7 +175,7 @@ title:  Resume
               <li>Created permission model that integrates with third party security (Shiro)</li>
             </ul>
             <h4>Technologies utilized:</h4>
-            Java, Spring, Spring MVC, Jetty, Tomcat, SQL, MS SQL Server, JDBC, Spring JDBC, MyBatis, EHCache, LDAP, JSON, Apache Shiro</p>
+            <p>Java, Spring, Spring MVC, Jetty, Tomcat, SQL, MS SQL Server, JDBC, Spring JDBC, MyBatis, EHCache, LDAP, JSON, Apache Shiro</p>
         </div>
       </div>
     </div>
@@ -180,7 +188,22 @@ title:  Resume
           <div class="row"><div class="col-md-9">DHHS, Clemson Computing and Information Technology, Vector Consulting, TAPTECH Greenville, SC</div><div class="col-md-3">11/2012 – 08/2014</div></div>
         </div>
         <div class="panel-body">
-          <p>Senior Developer within Core Services project team responsible for migrating South Carolina's Medicaid/Medicare software from mainframe to Curam. Architected solution to integrate existing Application Ingest webservice with OnBase utilizing message queues, EJBs, and JBOSS Application server. Developed service layer, DAOs, domain objects for webservice integration to include refcatoring of existing code.Developed document status for integrated applications utilizing MYSQL and JPA. Converted HBase document persistence store to MYSQL datasource. Developed JPA entities for document persistence in MYSQL datasource. Evaluated and compared FUSE ESB and MULE ESB products to develop a proof of concept and prepare a formal recommendation for best product to use for project. Migrated CXF JBOSS deployed webservice to Fuse ESB and Mule ESB. Developed OSGI applications and Camel routes for Fuse ESB. Developed flows for Mule ESB. Exploring new technologies, sharing acquired information to expand the team's knowledgebase. Mentored junior level developers to grow and improve team knowledge and skills.</p>
+          <h4>Responsibilities:</h4>
+          <p>Migrating South Carolina's Medicaid/Medicare software from mainframe to Curam, Mule and other Java applications.</p>
+          <h4>Solutions include:</h4>
+          <ul>
+            <li>Developed an analysis against Application Ingest process and existing HBase datastore in order to create a relational model for the conversion of the HBase document persistence store to MYSQL datasource, applying JPA entities to complete the integration between the application and MYSQL datasource.</li>
+            <li>Migrated CXF JBOSS deployed web service to Mule ESB and Fuse ESB to develop a proof of concept and prepare a formal recommendation for the best ESB product to use for project.</li>
+            <li>Architected software architecture of components focused on the ability to re-use components across multiple Mule projects.</li>
+            <li>Introduced and architected Gradle build for new Mule projects.</li>
+            <li>Developed Mule flows to process and persist mainframe EBCDIC files and to expose the data with SOAP based webservices by researching and introducing JRecord to parse and process mainframe files using the EBCDIC character set in the absence of any prior tool and introducing JPA for persisting mainframe EBCDIC files.</li>
+            <li>Architected and implemented a batch scheduling process to keep Curam and the mainframe system in sync until completion of transition from the mainframe to Curam.</li>
+            <li>Implemented the batch scheduling process solution via creation of EJBs to implement the batch scheduler, utilization of Active MQ with JMS to facilitate communication between Mule ESB and JBoss, configuration of JBoss to communicate with Active MQ, creation of Mule flows to retrieve input files for the batch process to run, and creation of Mule flows to route the responses from the batch process to the mainframe and other associated systems.</li>
+            <li>Customized Mule components to communicate with mainframe SFTP server.</li>
+            <li>Created custom Mule components, processors, and transformers to help facilitate the business process being implemented by the Mule flow.</li>
+          </ul>
+          <h4>Technologies utilized:</h4>
+          <p>Java, Spring, SQL,Oracle, JDBC, JPA, EJB 3.1, ActiveMQ, JMS, JBOSS, Mule, Apache CXF, SOAP, XML, SFTP/FTP</p>
         </div>
       </div>
     </div>
