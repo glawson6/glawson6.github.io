@@ -41,8 +41,82 @@ has a Mule properties and config file.
 
 The project has Mule jars which are dependent on a previous version of Spring. In order to get Spring Boot, which depends 
 on Spring 4, to run with Mule we have to use a different version of Mule. We will also have to transform our pom.xml to 
-use the Spring Boot as its parent. We will also change the packaging from mule to jar. There are also some dependencies 
+use the Spring Boot as its parent.<groupId>com.taptech.mule</groupId> We will also change the packaging from mule to jar. There are also some dependencies 
 Mule needs in order to be embedded. Those dependencies are also added to the pom. You can view all the changes [here](https://github.com/glawson6/mule-starter-app/blob/master/pom.xml).
+
+We now have the dependencies , but we need to tell Spring Boot how to start the Mule in its context. This means using the Spring Boot 
+application context as the parent context for running  Mule embedded. I have created a class called MuleBootstrap for 
+accomplishing that goal.
+
+Look at the code snippet below or at [Github](https://github.com/glawson6/mule-starter-app/blob/master/src/main/java/org/taptech/app/MuleBootstrap.java):
+
+<?prettify lang=java?>
+<pre class="prettyprint">
+
+
+import org.mule.api.MuleContext;
+import org.mule.api.MuleException;
+import org.mule.api.config.ConfigurationException;
+import org.mule.api.lifecycle.InitialisationException;
+import org.mule.config.spring.SpringXmlConfigurationBuilder;
+import org.mule.context.DefaultMuleContextFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
+import org.springframework.boot.autoconfigure.web.DispatcherServletAutoConfiguration;
+import org.springframework.boot.autoconfigure.web.EmbeddedServletContainerAutoConfiguration;
+import org.springframework.boot.autoconfigure.web.WebMvcAutoConfiguration;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.StaticApplicationContext;
+
+@ComponentScan
+@Configuration
+@EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class,DispatcherServletAutoConfiguration.class,
+        WebMvcAutoConfiguration.class, EmbeddedServletContainerAutoConfiguration.class,HibernateJpaAutoConfiguration.class})
+public class MuleBootstrap implements CommandLineRunner {
+
+    private static final Logger log = LoggerFactory.getLogger(MuleBootstrap.class);
+
+    @Autowired
+    private ApplicationContext context;
+
+    @Override
+    public void run(String... strings) throws Exception {
+        DefaultMuleContextFactory muleContextFactory = new DefaultMuleContextFactory();
+        SpringXmlConfigurationBuilder configBuilder = null;
+        try {
+            StaticApplicationContext staticApplicationContext = new StaticApplicationContext(context);
+            configBuilder = new SpringXmlConfigurationBuilder("mule-config.xml");
+            staticApplicationContext.refresh();
+            configBuilder.setParentContext(staticApplicationContext);
+            MuleContext muleContext = muleContextFactory.createMuleContext(configBuilder);
+            muleContext.start();
+            log.info("Started Mule!");
+        } catch (Exception e) {
+            log.error("Error starting Mule...",e);
+        }
+    }
+
+    public static void main(String... args) {
+        log.info("Starting SpringApplication...");
+        SpringApplication app = new SpringApplication(MuleBootstrap.class);
+        app.setWebEnvironment(false);
+        app.run(args);
+        log.info("SpringApplication has started...");
+    }
+
+
+}
+</pre>
 
 At this point the project should be ready to go. 
 
