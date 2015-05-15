@@ -163,6 +163,7 @@ h6, .h6 {
   text-align: center;
   background-color: #f9f9f9;
   border-top: 1px solid #e5e5e5;
+
 }
 .blog-footer p:last-child {
   margin-bottom: 0;
@@ -178,4 +179,57 @@ h6, .h6 {
 }
 .sidebar-about-resume{
   margin-top: 10px;
+}
+.home-main{
+  width:  2000px;
+  height: 1037px;
+  /*
+  background-image: url("../img/mac-desk2200X1037.png");
+  background-size: cover;
+  filter: brightness(40%) contrast(70%);
+  */
+}
+
+.background-image {
+
+  /*width:  2000px;
+  height: 1037px;*/
+  /*position: fixed;
+  left: 0;
+  right: 0;*/
+  z-index: 1;
+
+ display: block;
+  background-image: url("../img/me-at-podium640X347-con-bright-adj2.cc8d.jpeg");
+  background-size: cover;
+  /*width: 1200px;
+  height: 600px;*/
+
+  /*
+  -webkit-filter: brightness(40%) contrast(70%);
+  -moz-filter:  brightness(40%) contrast(70%);
+  -o-filter:  brightness(40%) contrast(70%);
+  -ms-filter:  brightness(40%) contrast(70%);
+  filter:  brightness(40%) contrast(70%);
+  */
+}
+
+.panel-transparent {
+  background: none;
+  margin-top: 50px;
+  border: none!important;
+  background-color:transparent!important;
+}
+
+.panel-transparent .panel-heading{
+  border: none!important;
+  /*background: rgba(122, 130, 136, 0.2)!important;*/
+  background-color:transparent!important;
+}
+
+.panel-transparent .panel-body{
+  border: none!important;
+  /*background: rgba(122, 130, 136, 0.2)!important;*/
+  /*background: rgba(46, 51, 56, 0.2)!important;*/
+  background-color:transparent!important;
 }
