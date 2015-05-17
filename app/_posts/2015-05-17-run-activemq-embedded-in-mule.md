@@ -4,11 +4,12 @@ title:  "Run ActiveMQ Embedded in Mule"
 date:   2015-05-17 15:26:17
 categories: activemq mule
 ---
-<img class="side-image img-responsive" src="/img/embedded-activemq.png" alt="Terminal Mule Response">
 
 ## Run ActiveMQ Embedded in Mule
 
 May 17, 2015 by [Gregory Lawson](/about.html)
+
+<img class="side-image img-responsive" src="/img/embedded-activemq.png" alt="Terminal Mule Response">
 
 Mule when used with ActiveMQ offers great integration capabilities. According to ActiveMQ, "Apache ActiveMQ is a messaging provider, with extensive capabilities for message brokering. Mule is described as an ESB, in that it defines and executes the brokering of message exchanges among integrated software components."
 ActiveMQ's response can be read [here](http://activemq.apache.org/how-does-activemq-compare-to-mule.html).
