@@ -4,6 +4,7 @@ title:  "Run ActiveMQ Embedded in Mule"
 date:   2015-05-17 15:26:17
 categories: activemq mule
 ---
+<img class="side-image img-responsive" src="/img/embedded-activemq.png" alt="Terminal Mule Response">
 
 ## Run ActiveMQ Embedded in Mule
 
@@ -69,3 +70,4 @@ Mule application!
 ####Further reading
 * [How do I embed a Broker inside a Connection](http://activemq.apache.org/how-do-i-embed-a-broker-inside-a-connection.html)
 * [ActiveMQ Topologies](http://activemq.apache.org/topologies.html)
+* [ActiveMQ/Mule Integeration Examples](http://www.mulesoft.org/mule-activemq-integration-examples)
