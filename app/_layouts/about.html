@@ -20,10 +20,7 @@
 
         <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
           {% include sidebar-about-less-info.html %}
-          <ins class="adsbygoogle"
-               style="display:inline-block;width:336px;height:280px"
-               data-ad-client="ca-pub-8900501214767896"
-               data-ad-slot="5563476365"></ins>
+          {% include googlead-right.html %}
           {% include sidebar-posts.html %}
           {% include sidebar-links.html %}
           {% include sidebar-elsewhere.html %}
@@ -33,6 +30,6 @@
     {% include footer.html %}
     {% include scripts.html %}
     {% include googleanalytics.html %}
-    {% include googleads.html %}
+    {% include googleads-scripts.html %}
   </body>
 </html>
