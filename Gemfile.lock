@@ -60,6 +60,9 @@ GEM
     rack-contrib (1.4.0)
       git-version-bump (~> 0.15)
       rack (~> 1.4)
+    rack-jekyll (0.3.5)
+      jekyll
+      rack
     rake (10.4.2)
     rb-fsevent (0.9.5)
     rb-inotify (0.9.5)
@@ -85,6 +88,7 @@ DEPENDENCIES
   foreman
   jekyll (= 2.4.0)
   rack-contrib
+  rack-jekyll
   rake
   thin
 
