@@ -21,7 +21,7 @@ After creating a Heroku account and creating an application, a local Git reposit
 of the application.
 
 The second is [Dokku](http://progrium.viewdocs.io/dokku/). Dokku is an open source Heroku implementation. You can install 
-it for free on with the Ubuntu Linux distribution. If offers the same capabilities as Heroku but is only scaled for one
+it for free with an Ubuntu Linux distribution. If offers the same capabilities as Heroku but is only scaled for one
 computer system.
  
 Download the project. The complete source code and Github project can be found [here](https://github.com/glawson6/spring-boot-mule-pass).
@@ -48,6 +48,7 @@ Now, create an application in Heroku and follow the directions with "Deploy usin
 
 * [Dokku](http://progrium.viewdocs.io/dokku/)
 * [Heroku](https://devcenter.heroku.com/)
+* [Java in Heroku](https://devcenter.heroku.com/articles/getting-started-with-java#introduction)
 * [Deploying the Right Way: Dokku on Digital Ocean](https://www.andrewmunsell.com/blog/dokku-tutorial-digital-ocean)
 * [Spring Boot](http://projects.spring.io/spring-boot/)
 
