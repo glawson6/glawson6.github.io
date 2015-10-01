@@ -7,4 +7,5 @@ gem 'foreman'
 gem 'thin'
 gem 'rack-contrib'
 gem 'rack-jekyll'
+gem 'puma'
 
