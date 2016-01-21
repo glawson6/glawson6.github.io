@@ -81,6 +81,25 @@ $ git commit -am "make it better"
 $ git push heroku master
 </pre>
 
+Start another terminal or shell  and issue the command:
+
+<?prettify lang=sh?>
+<pre class="prettyprint">
+ curl https://YOUR-APPLICATION-NAME.herokuapp.com/test
+</pre>
+You should see: Welcome Paas Mule!
+
+Congratulations! You just deployed a Mule App to Heroku!
+
+>After installing [Dokku](http://dokku.viewdocs.io/dokku/installation/),  you can deploy an app by running in a terminal 'git remote add dokku dokku@YOUR-DOMAIN-NAME:YOUR-APPLICATION-NAME
+
+You can then run:
+<?prettify lang=sh?>
+<pre class="prettyprint">
+ curl https://YOUR-APPLICATION-NAME.YOUR-DOMAIN-NAME/test
+</pre>
+
+You should see: Welcome Paas Mule!
 
 ####Further reading
 * [Dokku](http://progrium.viewdocs.io/dokku/)
