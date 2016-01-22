@@ -56,7 +56,7 @@ Now, create an application in Heroku and follow the directions with "Deploy usin
 $ heroku login
 </pre>
 
-After logging in, you can add the local Get repo to Heroku's remote repo:
+After logging in, you can add the local Git repo to Heroku's remote repo:
 
 <?prettify lang=sh?>
 <pre class="prettyprint">

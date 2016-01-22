@@ -6,7 +6,7 @@ mvn clean package &amp;&amp; java -Dhttp.port=8080 -jar target/spring-boot-mule-
 curl http://localhost:8080/test
 </pre><p>If you see “Welcome Paas Mule!”, you have just verified that the Embedded Mule can run locally.</p><p>Now, create an application in Heroku and follow the directions with “Deploy using Heroku Git”.</p><blockquote><p>Install the Heroku Toolbelt</p></blockquote><blockquote><p>Download and install the <a href="https://toolbelt.heroku.com/">Heroku Toolbelt</a> or learn more about the <a href=https://devcenter.heroku.com/categories/command-line>Heroku Command Line Interface</a>.</p></blockquote><blockquote><p>If you haven’t already, log in to your Heroku account and follow the prompts to create a new SSH public key.<?prettify lang=sh?></p></blockquote><pre class=prettyprint>
 $ heroku login
-</pre><p>After logging in, you can add the local Get repo to Heroku’s remote repo:</p><?prettify lang=sh?><pre class=prettyprint>
+</pre><p>After logging in, you can add the local Git repo to Heroku’s remote repo:</p><?prettify lang=sh?><pre class=prettyprint>
 heroku git:remote -a YOUR-APPLICATION-NAME
 </pre><p>In my case I created an app called test-glawson6. My command becomes:</p><?prettify lang=sh?><pre class=prettyprint>
 heroku git:remote -a test-glawson6
