@@ -382,7 +382,19 @@ module.exports = function (grunt) {
         //'multidest:copy_dist'
         'copy:dist'
       ]
-    }
+    },
+     auto_install: {
+        local: {},
+        subdir: {
+          options: {
+            cwd: 'subdir',
+            stdout: true,
+            stderr: true,
+            failOnError: true,
+            npm: '--production'
+          }
+        }
+      }
   });
 
   // Define Tasks
@@ -447,4 +459,5 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-bower-task');
   grunt.loadNpmTasks('grunt-wiredep');
   grunt.loadNpmTasks('grunt-multi-dest');
+  grunt.loadNpmTasks('grunt-auto-install');
 };
