@@ -1,0 +1,112 @@
+<!DOCTYPE html><html class=no-js><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><title>Spring Java Configuration</title><meta name=description content=""><meta name=viewport content="width=device-width,initial-scale=1"><!-- Place favicon.ico and apple-touch-icon(s) in the root directory --><!-- Latest compiled and minified CSS --><link rel=stylesheet href=https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css><!-- Optional theme --><link rel=stylesheet href=https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css><link rel=stylesheet href=/css/main.52b0.css><script src=/js/head-scripts.32fa.js></script><script src=https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js></script></head><body><!--[if lt IE 8]>
+        <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]--><div class=blog-masthead><div class=container><nav class=blog-nav><a class=blog-nav-item href="/">Home</a> <a class=blog-nav-item href=/about.html>About</a> <a class=blog-nav-item href=/blogs.html>Blogs</a> <a class=blog-nav-item href=/projects.html>Projects</a> <a class=blog-nav-item href=/resume.html>Resume</a></nav></div></div><div class=container><div class=blog-header><h1 class=blog-title>Gregory Lawson</h1><p class="lead blog-description">Welcome to Gregory Lawson IO!</p></div><div class=row><div class="col-sm-8 blog-main"><article class=post><h2 id=spring-bean-configuration-using-java>Spring Bean Configuration using Java</h2><p>June 03, 2016 by <a href=/about.html>Gregory Lawson</a></p><p>Since the advent of annotations and the use of metadata about code, frameworks ,such as Spring, have built ingenious systems around these concepts. Spring has migrated its bean wriring from XML to Java. Gone are the days of XML loaded with Spring beans wired together for the application context.Although Spring still supports XML files, it is considered the exception rather than the norm.</p><p>For those still mulling over the idea of “beans wired together”, the following should help. Spring is known as an <a href=http://docs.spring.io/spring/docs/current/spring-framework-reference/html/beans.html>“Inversion of Control” container.</a>. This means that application developers using Spring allow it to handle the creation of objects needed for the running java application. This is important in that objects themselves are not responsible for locating the objects it needs. It also enforces that these object dependencies be available at application startup.</p><p>An example of Spring XML may be as follows:</p><pre><code class=language-xml>&lt;beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+      http://www.springframework.org/schema/context/spring-context-4.2.xsd"&gt;
+    &lt;context:property-placeholder location="classpath:ldap.properties" /&gt;
+
+    &lt;bean id="contextSource"
+          class="org.springframework.security.ldap.DefaultSpringSecurityContextSource"&gt;
+        &lt;constructor-arg value="${ldap.url}"/&gt;
+        &lt;property name="userDn" value="${ldap.userDn}"/&gt;
+        &lt;property name="password" value="${ldap.password}"/&gt;
+    &lt;/bean&gt;
+
+    &lt;bean id="preAuthProvider"
+          class="org.springframework.security.ldap.authentication.LdapAuthenticationProvider"&gt;
+        &lt;constructor-arg&gt;
+            &lt;bean class="org.springframework.security.ldap.authentication.BindAuthenticator"&gt;
+                &lt;constructor-arg ref="contextSource"/&gt;
+                &lt;property name="userDnPatterns"&gt;
+                    &lt;list&gt;&lt;value&gt;uid={0},cn=users&lt;/value&gt;&lt;/list&gt;
+                &lt;/property&gt;
+            &lt;/bean&gt;
+        &lt;/constructor-arg&gt;
+        &lt;constructor-arg&gt;
+            &lt;bean
+                    class="org.springframework.security.ldap.userdetails.DefaultLdapAuthoritiesPopulator"&gt;
+                &lt;constructor-arg ref="contextSource"/&gt;
+                &lt;constructor-arg value="cn=groups"/&gt;
+                &lt;property name="groupRoleAttribute" value="cn"/&gt;
+                &lt;property name="rolePrefix" value=""/&gt;
+            &lt;/bean&gt;
+        &lt;/constructor-arg&gt;
+    &lt;/bean&gt;
+&lt;/beans&gt;
+</code></pre><p>This can be expressed from Java as:</p><pre><code class=language-java>import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.ImportResource;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.security.ldap.DefaultSpringSecurityContextSource;
+import org.springframework.security.ldap.authentication.BindAuthenticator;
+import org.springframework.security.ldap.authentication.LdapAuthenticationProvider;
+import org.springframework.security.ldap.userdetails.DefaultLdapAuthoritiesPopulator;
+
+ @Configuration
+    @ConditionalOnProperty(prefix = "ldap.config", name = "java", havingValue = "true", matchIfMissing = true)
+    public static class LDAPJavaSecurityConfiguration{
+
+        public LDAPJavaSecurityConfiguration() {
+            logger.info("Using LDAPJavaSecurityConfiguration!");
+        }
+
+        @Value("${ldap.userDn}")
+        String ldapUserDn;
+
+        @Value("${ldap.password}")
+        String ldapPassword;
+
+        @Value("${ldap.url}")
+        String ldapUrl;
+
+        @Bean(name = "contextSource")
+        DefaultSpringSecurityContextSource defaultSpringSecurityContextSource(){
+            DefaultSpringSecurityContextSource defaultSpringSecurityContextSource = new DefaultSpringSecurityContextSource(ldapUrl);
+            defaultSpringSecurityContextSource.setUserDn(ldapUserDn);
+            defaultSpringSecurityContextSource.setPassword(ldapPassword);
+            return defaultSpringSecurityContextSource;
+        }
+
+        private static String[] userDnArray = {"uid={0},cn=users"};
+
+        @Bean(name="bindAuthenticator")
+        BindAuthenticator bindAuthenticator(@Qualifier("contextSource")DefaultSpringSecurityContextSource defaultSpringSecurityContextSource){
+            BindAuthenticator bindAuthenticator = new BindAuthenticator(defaultSpringSecurityContextSource);
+            bindAuthenticator.setUserDnPatterns(userDnArray);
+            return bindAuthenticator;
+        }
+
+        @Bean(name="defaultLdapAuthoritiesPopulator")
+        DefaultLdapAuthoritiesPopulator defaultLdapAuthoritiesPopulator(@Qualifier("contextSource")DefaultSpringSecurityContextSource defaultSpringSecurityContextSource){
+            DefaultLdapAuthoritiesPopulator defaultLdapAuthoritiesPopulator = new DefaultLdapAuthoritiesPopulator(
+                    defaultSpringSecurityContextSource , "cn=groups");
+            defaultLdapAuthoritiesPopulator.setGroupRoleAttribute("cn");
+           // defaultLdapAuthoritiesPopulator.setRolePrefix("");
+            defaultLdapAuthoritiesPopulator.setRolePrefix("ROLE_");
+            return defaultLdapAuthoritiesPopulator;
+        }
+
+        @Bean(name="preAuthProvider")
+        LdapAuthenticationProvider ldapAuthenticationProvider(@Qualifier("bindAuthenticator")BindAuthenticator bindAuthenticator,
+                                                              DefaultLdapAuthoritiesPopulator defaultLdapAuthoritiesPopulator  ){
+            LdapAuthenticationProvider ldapAuthenticationProvider = new LdapAuthenticationProvider(bindAuthenticator, defaultLdapAuthoritiesPopulator);
+            return ldapAuthenticationProvider;
+        }
+    }
+</code></pre><p>Upon first inspection, there seems to be a few annotations of interest:</p><table><tbody><tr><td><strong>@Bean</strong></td><td><code>Annotation representing the bean tag from XML</code></td></tr><tr><td><strong>@Value</strong></td><td><code>Represents a SPEL of property that is discovered during initalization</code></td></tr></tbody></table><p>More can be found on these annotations <a href=http://www.tutorialspoint.com/spring/spring_annotation_based_configuration.htm>here.</a></p><h4 id=further-reading>Further reading</h4><ul><li><a href="http://docs.spring.io/spring/docs/current/spring-framework-reference/html/">Spring</a></li><li><a href=http://docs.spring.io/spring/docs/current/spring-framework-reference/html/overview.html#overview-dependency-injection>Spring Dependency Injection</a></li><li><a href=http://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/package-summary.html>Spring Java Annotations</a></li><li><a href=http://www.tutorialspoint.com/spring/spring_annotation_based_configuration.htm>Spring Java Annotations</a></li><li><a href=https://www.andrewmunsell.com/blog/dokku-tutorial-digital-ocean>Deploying the Right Way: Dokku on Digital Ocean</a></li><li><a href="http://projects.spring.io/spring-boot/">Spring Boot</a></li></ul></article><div class=blog-post></div></div><!-- /.blog-main --><div class="col-sm-3 col-sm-offset-1 blog-sidebar"><div class="sidebar-about sidebar-module sidebar-module-inset"><img class="side-image img-responsive" src=/img/me_purple_shirt.8b9d.jpeg alt="Gregory Lawson"><h2>About</h2><p>I am a:</p><p>Software Architect/Engineer</p><p>I work with:</p><p>-Enterprise Integration Tools</p><p>-Front-End Web Technologies</p></div><div class=text-center><ins class=adsbygoogle style=display:inline-block;width:336px;height:280px data-ad-client=ca-pub-8900501214767896 data-ad-slot=5563476365></ins></div><div class=sidebar-module><h4>Posts</h4><a href=/sring/java/config/2016/07/03/spring-java-config.html>Spring Java Configuration</a> <a href=/mule/dokku/heroku/paas/2015/09/27/run-Mule-in-Paas.html>Running Mule in Dokku and Heroku</a> <a href=/activemq/mule/2015/05/17/run-activemq-embedded-in-mule.html>Run ActiveMQ Embedded in Mule</a> <a href=/spring/mule/2015/04/22/using-spring-boot-with-mule.html>Using Spring Boot With Mule</a></div><div class=sidebar-module><h4>My Links</h4><ol class=list-unstyled><li><a href=http://daringfireball.net/projects/markdown/syntax>Markdown Syntax</a></li><li><a href="http://jekyllrb.com/">Jeckyll</a></li><li><a href=https://spring.io/guides/gs/spring-boot>Spring Boot Getting Started</a></li><li><a href=https://github.com/glawson6/mule-starter-app>Mule Spring Boot Starter</a></li></ol></div><div class=sidebar-module><h4>Elsewhere</h4><ol class=list-unstyled><li><a href=https://github.com/glawson6>GitHub</a></li><li><a href=https://www.linkedin.com/in/gregorylawsontaptech>LinkedIn</a></li><li><a href=https://profiles.generalassemb.ly/gregory-lawson>General Assembly</a></li></ol></div></div><!-- /.blog-sidebar --></div><!-- /.row --></div><!-- /.container --><footer class=blog-footer><p>Gregory Lawson</p><p><a href=#>Back to top</a></p><div class=container><div class=text-center></div></div></footer><!--
+<script>window.jQuery || document.write('<script src="/_bower_components/jquery/jquery.min.js"><\/script>')</script>
+--><script src=/js/script.7b55.js></script><!-- Google Analytics: change UA-XXXXX-X to be your site's ID. --><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+  function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+  e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+  e.src='//www.google-analytics.com/analytics.js';
+  r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+  ga('create','UA-XXXXX-X');ga('send','pageview');</script><script async src=//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js></script><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></body></html>

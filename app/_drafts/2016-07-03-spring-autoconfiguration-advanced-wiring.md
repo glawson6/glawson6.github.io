@@ -2,8 +2,8 @@
 layout: post
 title:  "Spring Java Configuration"
 date:   2016-07-03 15:26:17
-categories: spring java config
----
+categories: spring springboot java config 
+-----------------------------------------
 
 ## Spring Bean Configuration using Java  [Part 1 of 6](/spring/java/config/2016/07/03/spring-java-config.html)
 
@@ -140,12 +140,13 @@ import org.springframework.security.ldap.userdetails.DefaultLdapAuthoritiesPopul
 
 Upon first inspection, there seems to be a few annotations of interest:
 
-
 **@Configuration**|Indicates that the class can be used by the Spring IoC container as a source of bean definitions 
 **@Bean**|Annotation representing the bean tag from XML
-**@Value**|Represents a SPEL of property that is discovered during initalization 
+**@Value**|Represents a SPEL of property that is discovered during initalization
 
-These are the first changes that could be made when transitioning a pre Spring Boot application into Spring Boot.
+These are the first changes that could be made when transitioning a pre Spring application into Spring Boot.
+Now , in your Spring application, you can use the @Autowired annotations to wire these beans. Make sure the class in on the 
+context scan path.
 
 In the next blog I will show you how to use some auto configuration along with some advanced wiring techniques to auto wire this configuration.
 

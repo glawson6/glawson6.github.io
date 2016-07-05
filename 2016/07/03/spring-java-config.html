@@ -1,0 +1,104 @@
+<hr><p>layout: post title: “Spring Java Configuration” date: 2016-07-03 15:26:17 categories: spring java config ——————————</p><h2 id=spring-bean-configuration-using-java>Spring Bean Configuration using Java</h2><p>June 03, 2016 by <a href=/about.html>Gregory Lawson</a></p><p>This is a six part blog on an auction-demo application. It is a Spring Boot application consisting of Spring Data Rest, Spring Security, Spring custom wiring techniques and Spring Java Configuration.</p><p>Since the advent of annotations and the use of metadata about code, frameworks ,such as Spring, have built ingenious systems around these concepts. Spring has migrated its bean wriring from XML to Java. Gone are the days of XML loaded with Spring beans wired together for the application context.Although Spring still supports XML files, it is considered the exception rather than the norm.</p><p>For those still mulling over the idea of “beans wired together”, the following should help. Spring is known as an <a href=http://docs.spring.io/spring/docs/current/spring-framework-reference/html/beans.html>“Inversion of Control” container.</a>. This means that application developers using Spring allow it to handle the creation of objects needed for the running java application. This is important in that objects themselves are not responsible for locating the objects it needs. It also enforces that these object dependencies be available at application startup.</p><p>An example of Spring XML may be as follows:</p><pre><code class=language-xml>&lt;beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+      http://www.springframework.org/schema/context/spring-context-4.2.xsd"&gt;
+    &lt;context:property-placeholder location="classpath:ldap.properties" /&gt;
+
+    &lt;bean id="contextSource"
+          class="org.springframework.security.ldap.DefaultSpringSecurityContextSource"&gt;
+        &lt;constructor-arg value="${ldap.url}"/&gt;
+        &lt;property name="userDn" value="${ldap.userDn}"/&gt;
+        &lt;property name="password" value="${ldap.password}"/&gt;
+    &lt;/bean&gt;
+
+    &lt;bean id="preAuthProvider"
+          class="org.springframework.security.ldap.authentication.LdapAuthenticationProvider"&gt;
+        &lt;constructor-arg&gt;
+            &lt;bean class="org.springframework.security.ldap.authentication.BindAuthenticator"&gt;
+                &lt;constructor-arg ref="contextSource"/&gt;
+                &lt;property name="userDnPatterns"&gt;
+                    &lt;list&gt;&lt;value&gt;uid={0},cn=users&lt;/value&gt;&lt;/list&gt;
+                &lt;/property&gt;
+            &lt;/bean&gt;
+        &lt;/constructor-arg&gt;
+        &lt;constructor-arg&gt;
+            &lt;bean
+                    class="org.springframework.security.ldap.userdetails.DefaultLdapAuthoritiesPopulator"&gt;
+                &lt;constructor-arg ref="contextSource"/&gt;
+                &lt;constructor-arg value="cn=groups"/&gt;
+                &lt;property name="groupRoleAttribute" value="cn"/&gt;
+                &lt;property name="rolePrefix" value=""/&gt;
+            &lt;/bean&gt;
+        &lt;/constructor-arg&gt;
+    &lt;/bean&gt;
+&lt;/beans&gt;
+</code></pre><p>This can be expressed from Java as:</p><?prettify lang=java?><pre class=prettyprint>
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.ImportResource;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.security.ldap.DefaultSpringSecurityContextSource;
+import org.springframework.security.ldap.authentication.BindAuthenticator;
+import org.springframework.security.ldap.authentication.LdapAuthenticationProvider;
+import org.springframework.security.ldap.userdetails.DefaultLdapAuthoritiesPopulator;
+
+ @Configuration
+    @ConditionalOnProperty(prefix = "ldap.config", name = "java", havingValue = "true", matchIfMissing = true)
+    public static class LDAPJavaSecurityConfiguration{
+
+        public LDAPJavaSecurityConfiguration() {
+            logger.info("Using LDAPJavaSecurityConfiguration!");
+        }
+
+        @Value("${ldap.userDn}")
+        String ldapUserDn;
+
+        @Value("${ldap.password}")
+        String ldapPassword;
+
+        @Value("${ldap.url}")
+        String ldapUrl;
+
+        @Bean(name = "contextSource")
+        DefaultSpringSecurityContextSource defaultSpringSecurityContextSource(){
+            DefaultSpringSecurityContextSource defaultSpringSecurityContextSource = new DefaultSpringSecurityContextSource(ldapUrl);
+            defaultSpringSecurityContextSource.setUserDn(ldapUserDn);
+            defaultSpringSecurityContextSource.setPassword(ldapPassword);
+            return defaultSpringSecurityContextSource;
+        }
+
+        private static String[] userDnArray = {"uid={0},cn=users"};
+
+        @Bean(name="bindAuthenticator")
+        BindAuthenticator bindAuthenticator(@Qualifier("contextSource")DefaultSpringSecurityContextSource defaultSpringSecurityContextSource){
+            BindAuthenticator bindAuthenticator = new BindAuthenticator(defaultSpringSecurityContextSource);
+            bindAuthenticator.setUserDnPatterns(userDnArray);
+            return bindAuthenticator;
+        }
+
+        @Bean(name="defaultLdapAuthoritiesPopulator")
+        DefaultLdapAuthoritiesPopulator defaultLdapAuthoritiesPopulator(@Qualifier("contextSource")DefaultSpringSecurityContextSource defaultSpringSecurityContextSource){
+            DefaultLdapAuthoritiesPopulator defaultLdapAuthoritiesPopulator = new DefaultLdapAuthoritiesPopulator(
+                    defaultSpringSecurityContextSource , "cn=groups");
+            defaultLdapAuthoritiesPopulator.setGroupRoleAttribute("cn");
+           // defaultLdapAuthoritiesPopulator.setRolePrefix("");
+            defaultLdapAuthoritiesPopulator.setRolePrefix("ROLE_");
+            return defaultLdapAuthoritiesPopulator;
+        }
+
+        @Bean(name="preAuthProvider")
+        LdapAuthenticationProvider ldapAuthenticationProvider(@Qualifier("bindAuthenticator")BindAuthenticator bindAuthenticator,
+                                                              DefaultLdapAuthoritiesPopulator defaultLdapAuthoritiesPopulator  ){
+            LdapAuthenticationProvider ldapAuthenticationProvider = new LdapAuthenticationProvider(bindAuthenticator, defaultLdapAuthoritiesPopulator);
+            return ldapAuthenticationProvider;
+        }
+    }
+</pre><p>Upon first inspection, there seems to be a few annotations of interest:</p><table><tbody><tr><td><strong>@Configuration</strong></td><td><code>Indicates that the class can be used by the Spring IoC container as a source of bean definitions</code></td></tr><tr><td><strong>@Bean</strong></td><td><code>Annotation representing the bean tag from XML</code></td></tr><tr><td><strong>@Value</strong></td><td><code>Represents a SPEL of property that is discovered during initalization</code></td></tr></tbody></table><p>More can be found on these annotations <a href=http://www.tutorialspoint.com/spring/spring_annotation_based_configuration.htm>here.</a></p><h4 id=further-reading>Further reading</h4><ul><li><a href="http://docs.spring.io/spring/docs/current/spring-framework-reference/html/">Spring</a></li><li><a href=http://docs.spring.io/spring/docs/current/spring-framework-reference/html/overview.html#overview-dependency-injection>Spring Dependency Injection</a></li><li><a href=http://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/package-summary.html>Spring Java Annotations</a></li><li><a href=http://www.tutorialspoint.com/spring/spring_annotation_based_configuration.htm>Spring Java Annotations</a></li><li><a href=https://www.andrewmunsell.com/blog/dokku-tutorial-digital-ocean>Deploying the Right Way: Dokku on Digital Ocean</a></li><li><a href="http://projects.spring.io/spring-boot/">Spring Boot</a></li></ul>
