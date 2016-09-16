@@ -144,8 +144,9 @@ Upon first inspection, there seems to be a few annotations of interest:
 **@Configuration**|Indicates that the class can be used by the Spring IoC container as a source of bean definitions 
 **@Bean**|Annotation representing the bean tag from XML
 **@Value**|Represents a SPEL of property that is discovered during initalization 
+**@Qualifier**|Represents the bean name that should be passed into the methods creating beans.
 
-These are the first changes that could be made when transitioning a pre Spring Boot application into Spring Boot.
+These are the first changes that could be made when transitioning XML configuration into Java configuration. 
 
 In the next blog I will show you how to use some auto configuration along with some advanced wiring techniques to auto wire this configuration.
 
