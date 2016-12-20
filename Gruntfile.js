@@ -150,6 +150,7 @@ module.exports = function (grunt) {
             '<%= yeoman.home %>/favicon.ico',
             '<%= yeoman.home %>/humans.txt',
             '<%= yeoman.home %>/blogs.html',
+            '<%= yeoman.home %>/projects.html',
             '<%= yeoman.home %>/index.html',
             '<%= yeoman.home %>/resume.html',
             '<%= yeoman.home %>/robots.txt',
