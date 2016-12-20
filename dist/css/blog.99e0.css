@@ -107,7 +107,9 @@ h6, .h6 {
   line-height: 1.5;
 }
 
-
+.project-image{
+  height: 200px;
+}
 blockquote {
   font-size: 12px;
 }
