@@ -4,7 +4,8 @@
   "version": "0.0.0",
   "description": "Yeoman workflow for glawson6.github.io",
   "dependencies": {
-    "grunt": "^0.4.5"
+    "grunt": "^0.4.5",
+    "jekyll": "^3.0.0-beta1"
   },
   "devDependencies": {
     "component-bind": "^1.0.0",
